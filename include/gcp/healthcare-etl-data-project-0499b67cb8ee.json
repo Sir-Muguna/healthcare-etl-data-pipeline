@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "healthcare-etl-data-project",
+  "private_key_id": "0499b67cb8eecff678e329f6548bca73573daebd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCeHIxcmTM1FH5C\nCus7qXt7LPsYjSiqj7ar8Vh9xZNwXx6JbctBu9JcX0eJsBOymFppQSRxM9Qu46Rp\njIHOvzOnnvLhZuFfyl+vOu6Ay3QAE3d1VwuaP5rK1NqmfqIBARtTfORFQDbeG8Gs\n0q7r4U+Z3J53fWMeiLi1YyHTSe4yc2cu8Mmtkoa+cgGslroMrx2BL4wBFRZ7qWyU\ncJLGcX9hXQXH+Fd6Ct0eETopy3BbuVvWlhCFHzYF6jHouEUotcFru0ww0bbR1aWm\nBIX9MagJG1gcOTDpTG4Ghzl612QOoP7Dsgm79ckwitXfpIA68zLVkHxXZWPx3ESf\nbeFHVxE5AgMBAAECggEAFTTTBqBto9Lp1EXOoyPqMe0oiHR2XdoEsC8gpU3Yppu7\nZsdZGantXwJQgAEjwzJ3/eIE10ISVW+m35k+19IBRZwmC2FXHRfxmXkYACJJnrD9\ntrlEDx40zruZz/bwF55kYeBAZaFlOokSgvGHEJAZsxNKFdC1eKTx0TJImSQzVIS7\n8cipbIGXEi1D2firSjDBg/LRQztR6i5EWH02CX4K0Mp3LKQQPnVN4U9vPmPg3gFC\nYFaPl4d+R2ZQBFjgNre9l/Ew/WhWgfRnel4HQQri3RC9dKlMpQa03m+9zvEgxVbY\nWoDKzzjQ3KJJRdbVOnvUPhdoQGh/QsGqYSGnTCTOmQKBgQDRKO7lQB1vriYiAlKn\nZUojfuWCx4Q3f105TXF3jHBg/HbUvvZ7lUQhtg3BRkmXcFl/Thh4q8XnwZIISb4c\n++ZI4DWAH5bwpJXdimg0X7KpNtphHwjUXYr+3/AZn0P1EmUK7lXjAgmRhOI7Yb8G\nlPGVHrTSgSc1E1c+2CcF+1py2wKBgQDBhQdVGnuRZCnqDjRPJgY3NQN2YVUTP6CH\nMNEiIzoicn3tufymLH4lKrLIWBZI7wpXn3ik5NmwnzGteawlgel/qRb7dreaIfsQ\nx2X8BIhgRYnCd3zcgd9RhwgAgBlpjftdSARVUwJoUtrutvnyiHGbGG8FWZIC+NIc\nH1jI1o5GewKBgG7reT1kMfge76QLfU++nIGUcxxWuFxCE+smkaznclVMrawHFWnW\nb8o85LCBmNdRwnSLstiTp6FO+yWgDc0LHUW6eUTX+9DkR4G0O6zCr1mjeE4XCjSs\n4uBlW8wKtRxLRAB3Al8fnnloch0xqf9Qj4kYPqZ/zY4NErCGKrO2Z3IPAoGBAKw4\ni3H9g4K8tWCLC5p0qItxLoenz2K1+VLW6weKei413kQ2hNYOOqUw/rK1Uf/OXFHm\npiN5VxKMWlWcNsuadgcaoE1iNbuCCkHAcs556jRjLlpWpFRJcEjJ9yEa34LEzLMT\naGfW3Amj0xsm1AI304LHl+YW9I6YicRlUUpLR4sJAoGBALA87BUUJG2a/uNaKBXV\n0jooBSMklq8Yvdlc5qq0S5MfbSF9Xg3zSUV8Ldbx9znTkAJGvBHAUVYoty8CruwH\n6Q3wsvYESxYnV+k5LBEo310lUN9dGThdbBP0MZnK8rZPMF+IrEtXb3UstivbX+O0\n7ezUsCXSD8zuXcIPeUHoH0k1\n-----END PRIVATE KEY-----\n",
+  "client_email": "health-etl-pipeline@healthcare-etl-data-project.iam.gserviceaccount.com",
+  "client_id": "108172399456047108119",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/health-etl-pipeline%40healthcare-etl-data-project.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
