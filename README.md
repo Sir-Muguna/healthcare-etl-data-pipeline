@@ -1,48 +1,120 @@
-Overview
-========
+# Healthcare Data ETL Pipeline - Apache Airflow Project
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+## Project Overview
 
-Project Contents
-================
+This project is a healthcare data ETL (Extract, Transform, Load) pipeline orchestrated using **Apache Airflow**. The pipeline extracts data from various healthcare-related sources, processes and transforms the data, and then loads it into Google BigQuery for further analysis and reporting. The project follows a modular structure, allowing each component (extraction, transformation, and load) to be run independently and easily maintained.
 
-Your Astro project contains the following files and folders:
+## Features
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+- **Data Extraction**: Extracts healthcare data from multiple APIs, including NPI, HCPCS, ICD Codes, and NDC Products.
+- **Data Transformation**: Transforms and cleans the data using custom Python scripts, ensuring it's ready for analysis.
+- **Data Load**: Loads the processed data into Google BigQuery.
+- **Orchestration with Apache Airflow**: Automates the entire ETL process using Airflow DAGs with task dependencies.
+- **Modular Structure**: Each stage of the ETL process is encapsulated in its own Python module, making it easy to maintain and modify.
 
-Deploy Your Project Locally
-===========================
+## Technologies Used
 
-1. Start Airflow on your local machine by running 'astro dev start'.
+- **Apache Airflow**: For orchestrating the ETL pipeline.
+- **Python**: Core programming language used for the extraction, transformation, and load processes.
+- **PostgreSQL**: Used for storing raw data before processing.
+- **Google BigQuery**: Destination data warehouse for loading the processed data.
+- **Google Cloud Platform (GCP)**: Used for cloud storage, data processing, and BigQuery services.
+- **API Integration**: Pulls data from healthcare-related APIs such as the NPI Registry and FDA NDC.
 
-This command will spin up 4 Docker containers on your machine, each for a different Airflow component:
+## Project Directory Structure
 
-- Postgres: Airflow's Metadata Database
-- Webserver: The Airflow component responsible for rendering the Airflow UI
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- Triggerer: The Airflow component responsible for triggering deferred tasks
+```plaintext
+├── dags/
+│   ├── data_extraction/
+│   │   ├── hcpcs_extraction.py
+│   │   ├── icd_codes_extraction.py
+│   │   ├── ndc_products_extraction.py
+│   │   ├── npi_extraction.py
+│   ├── data_transform/
+│   │   ├── transformation.py
+│   ├── data_load/
+│   │   ├── bigquery_load.py
+│   ├── health_data_pipeline.py  # Main Airflow DAG
+```
 
-2. Verify that all 4 Docker containers were created by running 'docker ps'.
+### Key Python Files:
+- **data_extraction/**: Contains scripts for extracting healthcare data from different sources.
+  - `hcpcs_extraction.py`: Extracts HCPCS codes data.
+  - `icd_codes_extraction.py`: Extracts ICD codes data.
+  - `ndc_products_extraction.py`: Extracts NDC products data.
+  - `npi_extraction.py`: Extracts NPI data from the registry.
+  
+- **data_transform/**: Contains the data transformation logic.
+  - `transformation.py`: Processes and cleans the extracted data, preparing it for loading into BigQuery.
 
-Note: Running 'astro dev start' will start your project with the Airflow Webserver exposed at port 8080 and Postgres exposed at port 5432. If you already have either of those ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
+- **data_load/**: Contains the script for loading data into BigQuery.
+  - `bigquery_load.py`: Loads the processed data into the respective BigQuery tables.
 
-3. Access the Airflow UI for your local Airflow project. To do so, go to http://localhost:8080/ and log in with 'admin' for both your Username and Password.
+- **health_data_pipeline.py**: The Airflow DAG that orchestrates the entire ETL process.
 
-You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
+## Setup Instructions
 
-Deploy Your Project to Astronomer
-=================================
+### Prerequisites
 
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
+- **Apache Airflow**: Ensure that Airflow is installed and running.
+- **Google Cloud SDK**: Install the Google Cloud SDK and authenticate using a service account with BigQuery and GCS permissions.
+- **PostgreSQL**: Set up a PostgreSQL instance to store the raw extracted data.
+- **Python Dependencies**: Install the required Python libraries by running:
+  
+  ```bash
+  pip install -r requirements.txt
+  ```
 
-Contact
-=======
+### Step 1: Google Cloud Setup
 
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+1. Create a Google Cloud project and enable BigQuery and Cloud Storage APIs.
+2. Set up a **BigQuery dataset** where the processed data will be loaded.
+3. Create a **Google Cloud Storage bucket** for storing intermediate or raw files (if needed).
+4. Create and download a **Service Account JSON Key** for authentication.
+
+### Step 2: Airflow Configuration
+
+1. Copy the DAG files into the Airflow DAGs directory (`/opt/airflow/dags` or your custom path).
+2. Update the database connection details in the extraction scripts (e.g., `hcpcs_extraction.py`) and in Airflow's connection settings.
+3. Add the Google Cloud credentials to Airflow using the JSON key for authentication in BigQuery.
+
+### Step 3: Run the Airflow DAG
+
+1. Start the Airflow webserver and scheduler.
+   
+   ```bash
+   airflow webserver
+   airflow scheduler
+   ```
+
+2. In the Airflow UI, enable the DAG `health_data_pipeline`.
+
+3. Monitor the DAG's execution through the Airflow UI. The tasks should run sequentially according to their defined dependencies.
+
+### Step 4: Monitoring & Logs
+
+- Airflow provides logs for each task, which can be viewed directly in the Airflow UI. Check logs for any potential issues during data extraction, transformation, or loading.
+
+### DAG Overview
+
+The main DAG `health_data_pipeline.py` orchestrates the ETL process:
+
+1. **Data Extraction**:
+    - `task_hcpcs_data_extraction`: Extracts HCPCS data.
+    - `task_icd_data_extraction`: Extracts ICD data.
+    - `task_fda_data_extraction`: Extracts FDA NDC product data.
+
+2. **Data Transformation**:
+    - `task_transformation`: Runs the data transformation using the `transformation.py` script.
+
+3. **Data Load**:
+    - `task_bigquery_load`: Loads the processed data into BigQuery using the `bigquery_load.py` script.
+
+Each task is dependent on the successful completion of the previous task, ensuring a smooth ETL flow.
+
+## Future Enhancements
+
+- **Automated Data Validation**: Implement validation checks before loading data into BigQuery to ensure data quality.
+- **Error Handling**: Add more comprehensive error handling and retry logic in Airflow tasks.
+- **Monitoring and Alerts**: Integrate alerts (e.g., via Slack or email) to notify of task failures or data quality issues.
+- **Scalability**: As data volume grows, consider using Dataproc with PySpark for more efficient data transformation.
