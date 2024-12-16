@@ -28,8 +28,8 @@ dataset_id = 'health_data'
 # Initialize BigQuery client
 client = bigquery.Client(project=project_id)
 
-# Connect to PostgreSQL
 def get_postgres_conn():
+    """Establish a connection to the PostgreSQL database."""
     return psycopg2.connect(
         host=db_params['host'],
         dbname=db_params['dbname'],
@@ -38,8 +38,8 @@ def get_postgres_conn():
         port=db_params['port']
     )
 
-# Load data from PostgreSQL
 def fetch_data(query):
+    """Fetch data from PostgreSQL based on a query."""
     conn = get_postgres_conn()
     try:
         cur = conn.cursor()
@@ -54,15 +54,15 @@ def fetch_data(query):
         cur.close()
         conn.close()
 
-# Convert date/datetime objects to string
 def convert_dates_to_string(data):
+    """Convert date/datetime objects to strings."""
     return [
         [str(item) if isinstance(item, (str, bytes)) else item for item in row]
         for row in data
     ]
 
-# Load data into BigQuery using load job without saving locally
 def load_data_to_bigquery_with_load_job(table_name, data, columns):
+    """Load data into BigQuery using a load job without saving locally."""
     bucket_name = 'health_data_pipeline'  # Replace with your GCS bucket name
     
     # Convert data to CSV format in memory
@@ -94,6 +94,7 @@ def load_data_to_bigquery_with_load_job(table_name, data, columns):
     logging.info(f"Loaded {load_job.output_rows} rows into {dataset_id}:{table_name}")
 
 def load_tables_to_bigquery(tables):
+    """Load multiple tables into BigQuery based on provided queries."""
     for table_name, query in tables.items():
         logging.info(f"Fetching data for table {table_name}...")
         data, columns = fetch_data(query)
@@ -104,6 +105,7 @@ def load_tables_to_bigquery(tables):
         else:
             logging.warning(f"No data found for table {table_name}.")
 
+# If this module is run as the main program, execute the following code
 if __name__ == "__main__":
     tables = {
         "fda_ndc_transformed": "SELECT * FROM private.fda_ndc_transformed",
